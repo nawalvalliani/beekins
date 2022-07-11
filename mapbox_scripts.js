@@ -2,13 +2,16 @@ mapboxgl.accessToken = 'pk.eyJ1IjoibmF3YWxuYXdhbDgiLCJhIjoiY2wzZ2Z5aG90MDBnYzNka
 
 navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {enableHighAccuracy:true})
 
-function arePointsNear(checkPoint, centerPoint, km, desc) {
+function arePointsNear(checkPoint, centerPoint, miles, desc) {
+  //var miles = km*0.621371
+  var km = miles/0.621371
   var ky = 40000 / 360;
   var kx = Math.cos(Math.PI * centerPoint.lat / 180.0) * ky;
   var dx = Math.abs(centerPoint.lng - checkPoint.lng) * kx;
   var dy = Math.abs(centerPoint.lat - checkPoint.lat) * ky;
-  console.log(desc);
-  console.log(Math.sqrt(dx * dx + dy * dy));
+  console.log(miles)
+  //console.log(desc);
+  //console.log(Math.sqrt(dx * dx + dy * dy));
   return Math.sqrt(dx * dx + dy * dy) <= km;
 }
 
@@ -38,10 +41,12 @@ function successLocation(position) {
 			
 			
 			for (let i = 0; i < n; i++) {
-				array_name.push( [parsed[i]["longitude"], parsed[i]["latitude"]] )
-				descripts.push(parsed[i]["description"])
 				
-				if(arePointsNear({lat: parsed[i]["latitude"], lng: parsed[i]["longitude"]}, {lat: position.coords.latitude, lng: position.coords.longitude}, 1000.0, parsed[i]["description"])) {
+				if(arePointsNear({lat: parsed[i]["latitude"], lng: parsed[i]["longitude"]}, {lat: position.coords.latitude, lng: position.coords.longitude}, 200.0, parsed[i]["description"])) {
+					
+					array_name.push( [parsed[i]["longitude"], parsed[i]["latitude"]] )
+					descripts.push(parsed[i]["description"])
+				
 					var popup = new mapboxgl.Popup()
 					  .setText(parsed[i]["description"])
 					  .addTo(map);
@@ -53,7 +58,7 @@ function successLocation(position) {
 					.addTo(map)
 					.setPopup(popup);
 					
-					
+					marker.getElement().addEventListener('click', () => { console.log(parsed[i]["description"]); });
 				}
 				
 				
@@ -226,6 +231,31 @@ function successLocation(position) {
 			layers.appendChild(link);
 		
 	}});
+	
+	map.on('idle', () => {
+		// Enumerate ids of the layers.
+		const toggleableLayerIds = ['navigate'];
+		
+		// Set up the corresponding toggle button for each layer.
+		for (const id of toggleableLayerIds) {
+			// Skip layers that already have a button set up.
+			if (document.getElementById(id)) {
+				continue;
+			}
+			
+			// Create a link.
+			const link = document.createElement('a');
+			link.id = id;
+			link.href = '#';
+			link.textContent = id;
+			link.className = 'active';
+			
+			//link.onclick = function() {drop_beekin(array_name)};
+			
+			const layers = document.getElementById('nav-button');
+			layers.appendChild(link);
+		
+	}});	
 	
 
 	map.on('idle', () => {

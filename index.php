@@ -9,10 +9,12 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 
-<link href="menu_styles.css" rel="stylesheet">
+<link href="drop_beekin_button_styles.css" rel="stylesheet">
+<link href="nav_button_styles.css" rel="stylesheet">
 <link href="button_style.css" rel="stylesheet">
 <link href="toggle_styles.css" rel="stylesheet">
 <link href="slider_style.css" rel="stylesheet">
+<link href="logo_container_style.css" rel="stylesheet">
 <script src="mapbox_scripts.js"></script>
 
 <link rel="icon" href="icon.png">
@@ -25,7 +27,7 @@
 <script src="jquery.cookie.js"></script>
 <script>
 
-	
+	/*
 	<!-- stores cookie. if cookie is stored, do not display modal. show modal if no cookie. SO: https://stackoverflow.com/questions/13352658/reveal-modal-with-cookie-to-display-only-once -->
 	$(document).ready(function() {
     if ($.cookie('beekins_modal_shown') == null) {
@@ -33,7 +35,7 @@
         $("#myModal").modal('show');
     }
 });
-	
+	*/
 	
 </script>
 
@@ -45,7 +47,12 @@
 <body>
  
 <nav id="drop-beekin"></nav>
+<nav id="nav-button"></nav>
 <div id="map"></div>
+<!--<div id="logoContainer">
+	<img src="icon.png">
+</div>-->
+
 <pre id="coordinates" class="coordinates"></pre>
 
 
