@@ -9,7 +9,6 @@ function arePointsNear(checkPoint, centerPoint, miles, desc) {
   var kx = Math.cos(Math.PI * centerPoint.lat / 180.0) * ky;
   var dx = Math.abs(centerPoint.lng - checkPoint.lng) * kx;
   var dy = Math.abs(centerPoint.lat - checkPoint.lat) * ky;
-  console.log(miles)
   //console.log(desc);
   //console.log(Math.sqrt(dx * dx + dy * dy));
   return Math.sqrt(dx * dx + dy * dy) <= km;
@@ -25,7 +24,6 @@ function successLocation(position) {
 	zoom: 13
 	});
 
-	
 	//const array_name = [  [-77.60780168774868, 37.64661378198247], [-77.62003193301352, 37.64913812521877], [-77.61339194978599, 37.65219343341886], [-77.59506967193107, 37.67609879848949], [-77.58934262388162, 37.67854158964255], [-77.58757907952905, 37.681505817171]   ]
 	//const descripts = [ "Spikeball", "Doubles Tennis", "90s Trivia Night", "The Martian Book Club Meeting", "3v3 Basketball", "Free Covid Testing" ]
 	const array_name = []
@@ -35,7 +33,6 @@ function successLocation(position) {
 		url: "get.php",
 		type: "GET",
 		success: function(data) {
-			
 			var n = jQuery.parseJSON(data).length
 			var parsed = jQuery.parseJSON(data)
 			
@@ -58,7 +55,22 @@ function successLocation(position) {
 					.addTo(map)
 					.setPopup(popup);
 					
-					marker.getElement().addEventListener('click', () => { console.log(parsed[i]["description"]); });
+					marker.getElement().addEventListener('click', () => { 
+
+						$.get(
+					    "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
+					      parsed[i]["longitude"] + "," + parsed[i]["latitude"] + ".json?access_token=" + mapboxgl.accessToken,
+					    function(data) {
+					      //console.log(data.features[0]["place_name"]);
+					      alert(data.features[0]["place_name"]);
+					      //console.log(data)
+					    });
+
+					});
+				
+
+
+
 				}
 				
 				
