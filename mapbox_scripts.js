@@ -56,11 +56,14 @@ function successLocation(position) {
 					.setPopup(popup);
 					
 					marker.getElement().addEventListener('click', () => { 
-						alert(parsed[i]["rgeocoding"])
+						document.getElementById("beekin-title").innerHTML = parsed[i]["description"];
+						document.getElementById("reverse-geocode").innerHTML = parsed[i]["rgeocoding"];
+						document.getElementById("timestamp").innerHTML = parsed[i]["timestamp"];
+						document.getElementById("beekin-longitude").innerHTML = parsed[i]["longitude"];
+						document.getElementById("beekin-latitude").innerHTML = parsed[i]["latitude"];
+						$("#click_modal").modal('show');
 					});
 				}
-				
-				
 			}
 			// https://docs.mapbox.com/mapbox-gl-js/example/popup-on-click/
 			// try above for popup icons/data only on click

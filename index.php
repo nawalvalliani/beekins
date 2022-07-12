@@ -32,7 +32,7 @@
 	$(document).ready(function() {
     if ($.cookie('beekins_modal_shown') == null) {
         $.cookie('beekins_modal_shown', 'yes', { expires: 1, path: '/' });
-        $("#myModal").modal('show');
+        $("#intro_modal").modal('show');
     }
 });
 	*/
@@ -49,14 +49,11 @@
 <nav id="drop-beekin"></nav>
 <nav id="nav-button"></nav>
 <div id="map"></div>
-<!--<div id="logoContainer">
-	<img src="icon.png">
-</div>-->
 
 <pre id="coordinates" class="coordinates"></pre>
 
 
-<div id="myModal" class="modal fade">
+<div id="intro_modal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -67,15 +64,24 @@
 				<p>Beekins is a real-time events tracker to connect you to what is happening in your community. Check out where the buzz is!</p>
 				<!--<button type="submit" class="button" data-dismiss="modal">Continue</button> use this with button_style.css -->
 				<button type="submit" class="btn btn-primary" data-dismiss="modal">Continue</button>
-                <!--<form>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Name">
-                    </div>
-                    <div class="form-group">
-                        <input type="email" class="form-control" placeholder="Email Address">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Subscribe</button>
-                </form>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="click_modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><span id="beekin-title"></span>&#128029;</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+            	<p>Address: <span id="reverse-geocode"></span></p>
+            	<p>Time: <span id="timestamp"></span></p>
+            	<p>Longitude: <span id="beekin-longitude"></span></p>
+            	<p>Latitude: <span id="beekin-latitude"></span></p>
+				<button type="submit" class="btn btn-primary" data-dismiss="modal">Start Navigation</button>
             </div>
         </div>
     </div>
@@ -83,18 +89,7 @@
 
 <div id="theme_select">
 	<!-- See a list of Mapbox-hosted public styles at -->
-	<!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
-	<!--<input id="satellite-v9" type="radio" name="rtoggle" value="satellite" checked="checked">
-	<label for="satellite-v9">satellite</label>
-	<input id="light-v10" type="radio" name="rtoggle" value="light">
-	<label for="light-v10">light</label>
-	<input id="dark-v10" type="radio" name="rtoggle" value="dark">
-	<label for="dark-v10">dark</label>
-	<input id="streets-v11" type="radio" name="rtoggle" value="streets">
-	<label for="streets-v11">streets</label>
-	<input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors">
-	<label for="outdoors-v11">outdoors</label>-->
-	
+	<!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->	
 	<input id="streets-v11" type="radio" name="rtoggle" value="streets" checked="checked">
 	<label for="streets-v11">streets</label>
 	
@@ -103,8 +98,6 @@
 	
 	<input id="dark-v10" type="radio" name="rtoggle" value="dark">
 	<label for="dark-v10">dark</label>	
-	
-	
 </div>
 
 <!--<div class="map-overlay top">
