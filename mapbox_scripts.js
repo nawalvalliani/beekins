@@ -56,21 +56,8 @@ function successLocation(position) {
 					.setPopup(popup);
 					
 					marker.getElement().addEventListener('click', () => { 
-
-						$.get(
-					    "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
-					      parsed[i]["longitude"] + "," + parsed[i]["latitude"] + ".json?access_token=" + mapboxgl.accessToken,
-					    function(data) {
-					      //console.log(data.features[0]["place_name"]);
-					      alert(data.features[0]["place_name"]);
-					      //console.log(data)
-					    });
-
+						alert(parsed[i]["rgeocoding"])
 					});
-				
-
-
-
 				}
 				
 				
@@ -200,20 +187,45 @@ function successLocation(position) {
 				
 				//alert([lngLat.lng, lngLat.lat])
 		}*/
-		
-		$.ajax({
-			url: "save.php",
-			type: "POST",
-			data: {
-				description: description,
-				longitude: lngLat.lng,
-				latitude: lngLat.lat
-			},
-			success: function(response) { console.log("success") },
-			cache: false
-		});
-		
 
+
+// reverse geocoding is done when initially dropping a beekin to prevent repeated calls to api
+// commented out for later implementation (maybe)
+/*		$.get(
+	    "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
+	      lngLat.lng + "," + lngLat.lat + ".json?access_token=" + mapboxgl.accessToken,
+	    function(data) {
+	      //console.log(data.features[0]["place_name"]);
+	      //alert(data.features[0]["place_name"]);
+	      //console.log(data)
+
+				$.ajax({
+					url: "save.php",
+					type: "POST",
+					data: {
+						description: description,
+						longitude: lngLat.lng,
+						latitude: lngLat.lat,
+						geocode: data.features[0]["place_name"]
+					},
+					success: function(response) { console.log("success") },
+					cache: false
+				});
+	    });
+*/		
+
+			$.ajax({
+				url: "save.php",
+				type: "POST",
+				data: {
+					description: description,
+					longitude: lngLat.lng,
+					latitude: lngLat.lat,
+					geocode: "reverse_geocode_placeholder" //data.features[0]["place_name"]
+				},
+				success: function(response) { console.log("success") },
+				cache: false
+			});
 		
 		
 	}
