@@ -3,7 +3,6 @@ mapboxgl.accessToken = 'pk.eyJ1IjoibmF3YWxuYXdhbDgiLCJhIjoiY2wzZ2Z5aG90MDBnYzNka
 navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {enableHighAccuracy:true})
 
 function successLocation(position) {
-	console.log(position)
 	setupMap([position.coords.longitude, position.coords.latitude], 15)
 }
 
@@ -38,7 +37,13 @@ function setupMap(center, zoom) {
 	  map.addControl(directions, 'top-left');
 
 	  directions.setOrigin([center[0], center[1]]);
-	  directions.setDestination([-77.61193433140933, 37.703444507643425]);
+
+	  var dest_lng = document.getElementById('passed-longitude').innerText;
+	  var dest_lat = document.getElementById('passed-latitude').innerText;
+	  
+	  directions.setDestination([dest_lng, dest_lat]);
+
+	  //directions.setDestination([-77.61193433140933, 37.703444507643425]);
 	});	
 }
 

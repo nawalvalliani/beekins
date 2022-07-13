@@ -2,6 +2,21 @@ mapboxgl.accessToken = 'pk.eyJ1IjoibmF3YWxuYXdhbDgiLCJhIjoiY2wzZ2Z5aG90MDBnYzNka
 
 navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {enableHighAccuracy:true})
 
+function startNav() {
+
+	//console.log("startNav");
+	var beekin_longitude = document.getElementById('beekin-longitude').innerText;
+	var beekin_latitude = document.getElementById('beekin-latitude').innerText;
+
+	//console.log(beekin_longitude);
+	//console.log(beekin_latitude);
+
+	var strink = "./navigate.php?q=" + beekin_longitude + "," + beekin_latitude;
+	//console.log(strink);
+
+	window.open(strink, "_blank");
+}
+
 function arePointsNear(checkPoint, centerPoint, miles, desc) {
   //var miles = km*0.621371
   var km = miles/0.621371
@@ -15,7 +30,6 @@ function arePointsNear(checkPoint, centerPoint, miles, desc) {
 }
 
 function successLocation(position) {
-	
 	const coordinates = document.getElementById('coordinates');
 	const map = new mapboxgl.Map({
 	container: 'map',

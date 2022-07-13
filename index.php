@@ -81,7 +81,8 @@
             	<p>Time: <span id="timestamp"></span></p>
             	<p>Longitude: <span id="beekin-longitude"></span></p>
             	<p>Latitude: <span id="beekin-latitude"></span></p>
-				<button type="submit" class="btn btn-primary" data-dismiss="modal">Start Navigation</button>
+				<!--<button type="submit" class="btn btn-primary" data-dismiss="modal">Start Navigation</button>-->
+				<button type="submit" class="btn btn-primary" data-dismiss="modal" onclick="startNav()">Start Navigation</button>
             </div>
         </div>
     </div>
