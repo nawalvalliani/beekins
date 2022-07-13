@@ -21,7 +21,6 @@
 	<?php
 		$vals = explode(',', $_GET['q']);
 		echo "<span hidden id='passed-longitude'>{$vals[0]}</span>";
-		echo "<br>";
 		echo "<span hidden id='passed-latitude'>{$vals[1]}</span>";
 	?>
 

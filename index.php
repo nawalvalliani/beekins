@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Beekins - PHP</title>
+<title>Beekins</title>
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
 <link href="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css" rel="stylesheet">
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js"></script>
@@ -27,15 +27,15 @@
 <script src="jquery.cookie.js"></script>
 <script>
 
-	/*
-	<!-- stores cookie. if cookie is stored, do not display modal. show modal if no cookie. SO: https://stackoverflow.com/questions/13352658/reveal-modal-with-cookie-to-display-only-once -->
+	
+	/*<!-- stores cookie. if cookie is stored, do not display modal. show modal if no cookie. SO: https://stackoverflow.com/questions/13352658/reveal-modal-with-cookie-to-display-only-once -->*/
 	$(document).ready(function() {
     if ($.cookie('beekins_modal_shown') == null) {
         $.cookie('beekins_modal_shown', 'yes', { expires: 1, path: '/' });
         $("#intro_modal").modal('show');
     }
 });
-	*/
+	
 	
 </script>
 
@@ -48,7 +48,11 @@
  
 <nav id="drop-beekin"></nav>
 <nav id="nav-button"></nav>
-<div id="map"></div>
+<div id="map">
+	<div id="logoContainer">
+		<img src="icon.png" width="70">
+	</div>
+</div>
 
 <pre id="coordinates" class="coordinates"></pre>
 

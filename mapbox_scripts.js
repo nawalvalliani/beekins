@@ -273,7 +273,7 @@ function successLocation(position) {
 		
 	}});
 	
-	map.on('idle', () => {
+	/*map.on('idle', () => {
 		// Enumerate ids of the layers.
 		const toggleableLayerIds = ['navigate'];
 		
@@ -296,7 +296,7 @@ function successLocation(position) {
 			const layers = document.getElementById('nav-button');
 			layers.appendChild(link);
 		
-	}});	
+	}});	*/
 	
 
 	map.on('idle', () => {
