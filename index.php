@@ -29,12 +29,12 @@
 
 	
 	/*<!-- stores cookie. if cookie is stored, do not display modal. show modal if no cookie. SO: https://stackoverflow.com/questions/13352658/reveal-modal-with-cookie-to-display-only-once -->*/
-	$(document).ready(function() {
+	/*$(document).ready(function() {
     if ($.cookie('beekins_modal_shown') == null) {
         $.cookie('beekins_modal_shown', 'yes', { expires: 1, path: '/' });
         $("#intro_modal").modal('show');
     }
-});
+});*/
 	
 	
 </script>
@@ -105,20 +105,21 @@
 	<label for="dark-v10">dark</label>	
 </div>
 
-<!--<div class="map-overlay top">
+<div class="map-overlay top">
 	<div class="map-overlay-inner">
-		<h2>Significant earthquakes in 2015</h2>
-		<label id="month"></label>
-		<input id="slider" type="range" min="0" max="11" step="1" value="0">
+		<h3>Radius Slider</h3>
+		<p>Showing beekins in a <span id="demo"></span> mile radius</p>
+		<!--<label id="month"></label>-->
+		<input id="myRange" type="range" min="1" max="100" step="1" value="10">
 	</div>
 
-	<div class="map-overlay-inner">
+	<!--<div class="map-overlay-inner">
 		<div id="legend" class="legend">
 			<div class="bar"></div>
 			<div>Magnitude (m)</div>
 		</div>
-	</div>
-</div>-->
+	</div>-->
+</div>
  
 </body>
 </html>
