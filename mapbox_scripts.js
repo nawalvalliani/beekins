@@ -38,6 +38,35 @@ function successLocation(position) {
 	zoom: 13
 	});
 
+	var slider = document.getElementById("myRange");
+	var output = document.getElementById("demo");
+	output.innerHTML = slider.value; // Display the default slider value
+
+	function save_data() {
+		var input = document.getElementById("myRange");
+		localStorage.setItem("server", input.value);
+	}
+
+	function load_data() {
+     var input = document.getElementById("myRange");
+     if(localStorage.getItem("server") == null){
+         input.value = 10.0;
+     } else {
+         input.value = localStorage.getItem("server");
+     }
+     document.getElementById("demo").innerHTML = slider.value;
+
+     return input.value;
+ }
+
+	// Update the current slider value (each time you drag the slider handle)
+	slider.oninput = function() {
+	  output.innerHTML = this.value;
+	  save_data();
+	}		
+	
+	var shown_radius = load_data();
+
 	//const array_name = [  [-77.60780168774868, 37.64661378198247], [-77.62003193301352, 37.64913812521877], [-77.61339194978599, 37.65219343341886], [-77.59506967193107, 37.67609879848949], [-77.58934262388162, 37.67854158964255], [-77.58757907952905, 37.681505817171]   ]
 	//const descripts = [ "Spikeball", "Doubles Tennis", "90s Trivia Night", "The Martian Book Club Meeting", "3v3 Basketball", "Free Covid Testing" ]
 	const array_name = []
@@ -53,7 +82,7 @@ function successLocation(position) {
 			
 			for (let i = 0; i < n; i++) {
 				
-				if(arePointsNear({lat: parsed[i]["latitude"], lng: parsed[i]["longitude"]}, {lat: position.coords.latitude, lng: position.coords.longitude}, 200.0, parsed[i]["description"])) {
+				if(arePointsNear({lat: parsed[i]["latitude"], lng: parsed[i]["longitude"]}, {lat: position.coords.latitude, lng: position.coords.longitude}, shown_radius, parsed[i]["description"])) {
 					
 					array_name.push( [parsed[i]["longitude"], parsed[i]["latitude"]] )
 					descripts.push(parsed[i]["description"])
@@ -116,7 +145,7 @@ function successLocation(position) {
 	 
 	marker.on('dragend', onDragEnd);
 
-	var createGeoJSONCircle = function(center, radiusInKm, points) {
+	var createGeoJSONCircle = function(center, radiusInM, points) {
 		if(!points) points = 64;
 
 		var coords = {
@@ -124,7 +153,7 @@ function successLocation(position) {
 			longitude: center[0]
 		};
 
-		var km = radiusInKm;
+		var km = radiusInM/0.621371;
 
 		var ret = [];
 		var distanceX = km/(111.320*Math.cos(coords.latitude*Math.PI/180));
@@ -156,8 +185,8 @@ function successLocation(position) {
 	};
 
 	// below block of code shows radius around current point
-	/*map.on('style.load', function() {
-    map.addSource("polygon", createGeoJSONCircle([position.coords.longitude, position.coords.latitude], 0.5));
+	map.on('style.load', function() {
+    map.addSource("polygon", createGeoJSONCircle([position.coords.longitude, position.coords.latitude], shown_radius));
 	
 	map.addLayer({
 	"id": "polygon",
@@ -170,7 +199,7 @@ function successLocation(position) {
 	}
 	});
 	
-	});*/
+	});
 	
 	function drop_beekin(arr) {
 		const lngLat = marker.getLngLat();
