@@ -192,7 +192,7 @@ function successLocation(position) {
 	"id": "polygon",
 	"type": "fill",
 	"source": "polygon",
-	"layout": {},
+	"layout": {"visibility" : "visible"},
 	"paint": {
 		"fill-color": "blue",
 		"fill-opacity": 0.1
@@ -205,34 +205,9 @@ function successLocation(position) {
 		const lngLat = marker.getLngLat();
 		//console.log([lngLat.lng, lngLat.lat])
 		
-		var description = prompt("Event descriptionz: ")
-		
-		//console.log(typeof description);
-		
-		/*const marker2 = new mapboxgl.Marker({
-		draggable: false
-		})
-		.setLngLat([lngLat.lng, lngLat.lat])
-		.addTo(map);*/
-		
-		//alert([lngLat.lng, lngLat.lat])
-		
-		/*if (typeof description === 'string' || description instanceof String) {
-			
-		
-				var popup2 = new mapboxgl.Popup()
-				  .setText(description)
-				  .addTo(map);
-				  
-				const marker2 = new mapboxgl.Marker({
-				draggable: false
-				})
-				.setLngLat([lngLat.lng, lngLat.lat])
-				.addTo(map)
-				.setPopup(popup2);
-				
-				//alert([lngLat.lng, lngLat.lat])
-		}*/
+		var description = prompt("Event description: ");
+
+		//$("#drop_beekin_modal").modal('show');
 
 
 // reverse geocoding is done when initially dropping a beekin to prevent repeated calls to api
@@ -260,6 +235,8 @@ function successLocation(position) {
 	    });
 */		
 
+		if(description.length > 0) {
+
 			$.ajax({
 				url: "save.php",
 				type: "POST",
@@ -272,6 +249,12 @@ function successLocation(position) {
 				success: function(response) { console.log("success") },
 				cache: false
 			});
+
+		}
+
+		else{
+			alert("Beekin description must be greater than 0 characters!")
+		}
 		
 		
 	}

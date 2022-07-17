@@ -47,7 +47,7 @@
 <body>
  
 <nav id="drop-beekin"></nav>
-<nav id="nav-button"></nav>
+<!--<nav id="nav-button"></nav>-->
 <div id="map">
 	<div id="logoContainer">
 		<img src="icon.png" width="70">
@@ -106,19 +106,13 @@
 </div>
 
 <div class="map-overlay top">
-	<div class="map-overlay-inner">
-		<h3>Radius Slider</h3>
+	<div class="map-overlay-inner" style="filter:alpha(opacity=50); opacity:0.75;">
+		<h3>Show Beekins &#128029; Near You</h3>
+		<p>Move the slider to show events near you.</p>
 		<p>Showing beekins in a <span id="demo"></span> mile radius</p>
 		<!--<label id="month"></label>-->
 		<input id="myRange" type="range" min="1" max="100" step="1" value="10" onchange="location.reload()">
 	</div>
-
-	<!--<div class="map-overlay-inner">
-		<div id="legend" class="legend">
-			<div class="bar"></div>
-			<div>Magnitude (m)</div>
-		</div>
-	</div>-->
 </div>
  
 </body>
