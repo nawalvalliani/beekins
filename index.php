@@ -110,7 +110,7 @@
 		<h3>Radius Slider</h3>
 		<p>Showing beekins in a <span id="demo"></span> mile radius</p>
 		<!--<label id="month"></label>-->
-		<input id="myRange" type="range" min="1" max="100" step="1" value="10">
+		<input id="myRange" type="range" min="1" max="100" step="1" value="10" onchange="location.reload()">
 	</div>
 
 	<!--<div class="map-overlay-inner">
