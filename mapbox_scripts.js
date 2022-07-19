@@ -201,13 +201,24 @@ function successLocation(position) {
 	
 	});
 	
-	function drop_beekin(arr) {
+	//document.getElementById("drop-beekin-description").onclick = drop_beekin();
+
+	function drop_beekin_modal() {
+		document.getElementById("drop-beekin-description").addEventListener("click", drop_beekin);
+		$("#drop_beekin_modal").modal('show');
+	}
+
+	function drop_beekin_intermediate() {
+		drop_beekin();
+	}
+
+	function drop_beekin() {
 		const lngLat = marker.getLngLat();
 		//console.log([lngLat.lng, lngLat.lat])
 		
-		var description = prompt("Event description: ");
+		//var description = prompt("Event description: ")
 
-		//$("#drop_beekin_modal").modal('show');
+		var description = document.getElementById("beekin-description").value;
 
 
 // reverse geocoding is done when initially dropping a beekin to prevent repeated calls to api
@@ -246,7 +257,7 @@ function successLocation(position) {
 					latitude: lngLat.lat,
 					geocode: "reverse_geocode_placeholder" //data.features[0]["place_name"]
 				},
-				success: function(response) { console.log("success") },
+				success: function(response) { location.reload() },
 				cache: false
 			});
 
@@ -278,7 +289,7 @@ function successLocation(position) {
 			link.textContent = id;
 			link.className = 'active';
 			
-			link.onclick = function() {drop_beekin(array_name)};
+			link.onclick = function() {drop_beekin_modal()};
 			
 			const layers = document.getElementById('drop-beekin');
 			layers.appendChild(link);
