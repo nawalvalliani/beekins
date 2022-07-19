@@ -29,14 +29,47 @@ function arePointsNear(checkPoint, centerPoint, miles, desc) {
   return Math.sqrt(dx * dx + dy * dy) <= km;
 }
 
+function get_style() {
+
+	var map_style = "";
+
+	if(sessionStorage.getItem("theme") == null){
+		sessionStorage.setItem("theme", 1);
+		map_style = 'mapbox://styles/mapbox/streets-v11';
+		document.getElementById("streets-v11").checked = true;
+	} else if(sessionStorage.getItem("theme") == "1"){
+		map_style = 'mapbox://styles/mapbox/streets-v11';
+		document.getElementById("streets-v11").checked = true;
+	} else if(sessionStorage.getItem("theme") == "2"){
+		map_style = 'mapbox://styles/mapbox/light-v10';
+		document.getElementById("light-v10").checked = true;
+	} else if(sessionStorage.getItem("theme") == "3"){
+		map_style = 'mapbox://styles/mapbox/dark-v10';
+		document.getElementById("dark-v10").checked = true;
+	}
+
+	return map_style;
+}
+
 function successLocation(position) {
 	const coordinates = document.getElementById('coordinates');
+
+	map_style = get_style();
+
 	const map = new mapboxgl.Map({
 	container: 'map',
-	style: 'mapbox://styles/mapbox/streets-v11',
+	style: map_style,
 	center: [position.coords.longitude, position.coords.latitude],
 	zoom: 13
 	});
+
+	/*if(sessionStorage.getItem("theme") == null){
+		sessionStorage.setItem("theme", 1);
+	}*/
+	//console.log(sessionStorage.getItem("theme"));
+	//console.log(typeof(sessionStorage.getItem("theme")));
+
+
 
 	var slider = document.getElementById("myRange");
 	var output = document.getElementById("demo");
@@ -44,15 +77,15 @@ function successLocation(position) {
 
 	function save_data() {
 		var input = document.getElementById("myRange");
-		localStorage.setItem("server", input.value);
+		sessionStorage.setItem("server", input.value);
 	}
 
 	function load_data() {
      var input = document.getElementById("myRange");
-     if(localStorage.getItem("server") == null){
+     if(sessionStorage.getItem("server") == null){
          input.value = 10.0;
      } else {
-         input.value = localStorage.getItem("server");
+         input.value = sessionStorage.getItem("server");
      }
      document.getElementById("demo").innerHTML = slider.value;
 
@@ -329,6 +362,19 @@ function successLocation(position) {
 		for (const input of inputs) {
 			input.onclick = (layer) => {
 				const layerId = layer.target.id;
+				
+				if(layerId == "streets-v11") {
+					sessionStorage.setItem("theme", 1);
+				}
+
+				if(layerId == "light-v10") {
+					sessionStorage.setItem("theme", 2);
+				}
+
+				if(layerId == "dark-v10") {
+					sessionStorage.setItem("theme", 3);
+				}
+				
 				map.setStyle('mapbox://styles/mapbox/' + layerId);
 			};
 		}
