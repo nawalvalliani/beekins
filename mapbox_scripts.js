@@ -3,16 +3,10 @@ mapboxgl.accessToken = 'pk.eyJ1IjoibmF3YWxuYXdhbDgiLCJhIjoiY2wzZ2Z5aG90MDBnYzNka
 navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {enableHighAccuracy:true})
 
 function startNav() {
-
-	//console.log("startNav");
 	var beekin_longitude = document.getElementById('beekin-longitude').innerText;
 	var beekin_latitude = document.getElementById('beekin-latitude').innerText;
 
-	//console.log(beekin_longitude);
-	//console.log(beekin_latitude);
-
 	var strink = "./navigate.php?q=" + beekin_longitude + "," + beekin_latitude;
-	//console.log(strink);
 
 	window.open(strink, "_blank");
 }
@@ -24,8 +18,6 @@ function arePointsNear(checkPoint, centerPoint, miles, desc) {
   var kx = Math.cos(Math.PI * centerPoint.lat / 180.0) * ky;
   var dx = Math.abs(centerPoint.lng - checkPoint.lng) * kx;
   var dy = Math.abs(centerPoint.lat - checkPoint.lat) * ky;
-  //console.log(desc);
-  //console.log(Math.sqrt(dx * dx + dy * dy));
   return Math.sqrt(dx * dx + dy * dy) <= km;
 }
 
@@ -63,14 +55,6 @@ function successLocation(position) {
 	zoom: 13
 	});
 
-	/*if(sessionStorage.getItem("theme") == null){
-		sessionStorage.setItem("theme", 1);
-	}*/
-	//console.log(sessionStorage.getItem("theme"));
-	//console.log(typeof(sessionStorage.getItem("theme")));
-
-
-
 	var slider = document.getElementById("myRange");
 	var output = document.getElementById("demo");
 	output.innerHTML = slider.value; // Display the default slider value
@@ -100,8 +84,6 @@ function successLocation(position) {
 	
 	var shown_radius = load_data();
 
-	//const array_name = [  [-77.60780168774868, 37.64661378198247], [-77.62003193301352, 37.64913812521877], [-77.61339194978599, 37.65219343341886], [-77.59506967193107, 37.67609879848949], [-77.58934262388162, 37.67854158964255], [-77.58757907952905, 37.681505817171]   ]
-	//const descripts = [ "Spikeball", "Doubles Tennis", "90s Trivia Night", "The Martian Book Club Meeting", "3v3 Basketball", "Free Covid Testing" ]
 	const array_name = []
 	const descripts = []
 
@@ -109,14 +91,13 @@ function successLocation(position) {
 		url: "get.php",
 		type: "GET",
 		success: function(data) {
-			var n = jQuery.parseJSON(data).length
-			var parsed = jQuery.parseJSON(data)
+			var n = jQuery.parseJSON(data).length;
+			var parsed = jQuery.parseJSON(data);
 			
 			
 			for (let i = 0; i < n; i++) {
 				
 				if(arePointsNear({lat: parsed[i]["latitude"], lng: parsed[i]["longitude"]}, {lat: position.coords.latitude, lng: position.coords.longitude}, shown_radius, parsed[i]["description"])) {
-					
 					array_name.push( [parsed[i]["longitude"], parsed[i]["latitude"]] )
 					descripts.push(parsed[i]["description"])
 				
@@ -124,12 +105,30 @@ function successLocation(position) {
 					  .setText(parsed[i]["description"])
 					  .addTo(map);
 					
-					const marker = new mapboxgl.Marker({
-					draggable: false
-					})
-					.setLngLat([parsed[i]["longitude"], parsed[i]["latitude"]])
-					.addTo(map)
-					.setPopup(popup);
+					if(parsed[i]["flag"] == "0") {
+
+						const marker = new mapboxgl.Marker({
+						draggable: false,
+						})
+						.setLngLat([parsed[i]["longitude"], parsed[i]["latitude"]])
+						.addTo(map)
+						.setPopup(popup);
+
+					}
+
+
+					/*eventbrite or other non-beekin event markers*/
+					if(parsed[i]["flag"] == "1") {
+
+						const marker = new mapboxgl.Marker({
+						draggable: false,
+						color: "#D178D9"
+						})
+						.setLngLat([parsed[i]["longitude"], parsed[i]["latitude"]])
+						.addTo(map)
+						.setPopup(popup);
+
+					}
 					
 					marker.getElement().addEventListener('click', () => { 
 						document.getElementById("beekin-title").innerHTML = parsed[i]["description"];
@@ -141,22 +140,6 @@ function successLocation(position) {
 					});
 				}
 			}
-			// https://docs.mapbox.com/mapbox-gl-js/example/popup-on-click/
-			// try above for popup icons/data only on click
-			/*for (let i = 0; i < array_name.length; i++) {
-			
-				var popup = new mapboxgl.Popup()
-				  .setText(descripts[i])
-				  .addTo(map);
-			
-				const marker = new mapboxgl.Marker({
-				draggable: false
-				})
-				.setLngLat([array_name[i][0], array_name[i][1]])
-				.addTo(map)
-				.setPopup(popup);
-			}*/			
-			//console.log(jQuery.parseJSON(data).length)
 		},
 		cache: false
 	});
@@ -234,8 +217,6 @@ function successLocation(position) {
 	
 	});
 	
-	//document.getElementById("drop-beekin-description").onclick = drop_beekin();
-
 	function drop_beekin_modal() {
 		document.getElementById("drop-beekin-description").addEventListener("click", drop_beekin);
 		$("#drop_beekin_modal").modal('show');
@@ -288,7 +269,8 @@ function successLocation(position) {
 					description: description,
 					longitude: lngLat.lng,
 					latitude: lngLat.lat,
-					geocode: "reverse_geocode_placeholder" //data.features[0]["place_name"]
+					geocode: "reverse_geocode_placeholder", //data.features[0]["place_name"]
+					flag: 0
 				},
 				success: function(response) { location.reload() },
 				cache: false
@@ -328,32 +310,6 @@ function successLocation(position) {
 			layers.appendChild(link);
 		
 	}});
-	
-	/*map.on('idle', () => {
-		// Enumerate ids of the layers.
-		const toggleableLayerIds = ['navigate'];
-		
-		// Set up the corresponding toggle button for each layer.
-		for (const id of toggleableLayerIds) {
-			// Skip layers that already have a button set up.
-			if (document.getElementById(id)) {
-				continue;
-			}
-			
-			// Create a link.
-			const link = document.createElement('a');
-			link.id = id;
-			link.href = '#';
-			link.textContent = id;
-			link.className = 'active';
-			
-			//link.onclick = function() {drop_beekin(array_name)};
-			
-			const layers = document.getElementById('nav-button');
-			layers.appendChild(link);
-		
-	}});	*/
-	
 
 	map.on('idle', () => {
 		const layerList = document.getElementById('theme_select');
