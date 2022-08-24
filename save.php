@@ -4,7 +4,8 @@
 	$longitude=$_POST['longitude'];
 	$latitude=$_POST['latitude'];
 	$geocode=$_POST['geocode'];
-	$sql = "INSERT INTO locations(description, longitude, latitude, rgeocoding) VALUES ('$description', '$longitude', '$latitude', '$geocode')";
+	$user=$_POST['user'];
+	$sql = "INSERT INTO locations(description, longitude, latitude, rgeocoding, user) VALUES ('$description', '$longitude', '$latitude', '$geocode', '$user')";
 	$create_post_query = mysqli_query($conn, $sql);
 	mysqli_close($conn);
 ?>
